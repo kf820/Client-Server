@@ -23,9 +23,9 @@ public class ServerObject{
                 JSONObject json = (JSONObject) obj;
                 questions = (JSONArray) json.get("questionBank");
             }
-            Socket clientSocket = serverSock.accept();
-            out = new PrintWriter(clientSocket.getOutputStream(), true);                   
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            // Socket clientSocket = serverSock.accept();
+            // out = new PrintWriter(clientSocket.getOutputStream(), true);                   
+            // in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             this.acceptCommands();
             
 
@@ -45,21 +45,14 @@ public class ServerObject{
     }
 
 
-
-    // private void listen(){
-    //     try{}
-    //     while(true){
-    //         Socket clientSocket = serverSock.accept();
-    //         out = new PrintWriter(clientSocket.getOutputStream(), true);                   
-    //         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-    //         this.acceptCommands();
-    //     }
-    // }
-
     private void acceptCommands(){
         String command;
         try{
             while(true){
+                Socket clientSocket = serverSock.accept();
+                System.out.println("Connected!");
+                out = new PrintWriter(clientSocket.getOutputStream(), true);                   
+                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 command = in.readLine();
                 if(command.equals("p")){
                     this.putNewQuestion();
@@ -237,8 +230,16 @@ public class ServerObject{
             // question.put("questionNumber",questionNum);
             // out.println(questionNum);
             
-            int questionNumber = questionSize() + 1;
-            question.put("questionNumber", questionNumber);
+            //int questionNumber = questionSize() + 1;
+            if(questionSize() == 0){
+                question.put("questionNumber", 1);
+            }
+            else if(questionSize() > 0){
+                //grab last question and add 1
+                int qNum = 1 + Integer.parseInt(questions.get(questionSize()-1));
+                question.put("questionNumber", qNum);
+            }
+            //question.put("questionNumber", questionNumber);
             questions.add(question);
             //int numberQuestion = questions.size();
             out.println(questionSize());
