@@ -47,13 +47,15 @@ public class ServerObject{
 
     private void acceptCommands(){
         String command;
+        String kill="";
         try{
             while(true){
                 Socket clientSocket = serverSock.accept();
                 System.out.println("Connected!");
                 out = new PrintWriter(clientSocket.getOutputStream(), true);                   
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                command = in.readLine();
+                //command = in.readLine();
+                while((command = in.readLine())!=null){
                 if(command.equals("p")){
                     this.putNewQuestion();
                 }
@@ -81,9 +83,14 @@ public class ServerObject{
 
                 else if(command.substring(0,1).equals("k")){
                     System.out.println("Killing the server!");
-                    out.println("k");
+                    //out.println("k");
+                    kill = command;
                     break;
                 }
+            }
+            if(kill.equals("k")){
+                break;
+            }
 
             }
         }
@@ -108,6 +115,15 @@ public class ServerObject{
             }
         }
         return -1;
+    }
+
+    private boolean hasQuestion(int num){
+        int check = doesQuestionExist(num);
+        if(check != -1){
+            return true;
+        }
+        return false;
+
     }
 
     private void getQuestion(int number){
@@ -140,15 +156,6 @@ public class ServerObject{
             out.println("Error, question " + number + " not found.");
         }
 
-
-    }
-
-    private boolean hasQuestion(int num){
-        int check = doesQuestionExist(num);
-        if(check != -1){
-            return true;
-        }
-        return false;
 
     }
 
@@ -236,7 +243,7 @@ public class ServerObject{
             }
             else if(questionSize() > 0){
                 //grab last question and add 1
-                int qNum = 1 + Integer.parseInt(questions.get(questionSize()-1));
+                int qNum = 1 + Integer.parseInt((questions.get(questionSize()-1)).toString());
                 question.put("questionNumber", qNum);
             }
             //question.put("questionNumber", questionNumber);
