@@ -182,9 +182,31 @@ public class ClientObject {
 
     public void getQuestion(String number){
         out.println(number);
-        String message;
+        //boolean has;
+        
         try{
-            if((message = in.readLine())!= null){
+            String message = in.readLine();
+            System.out.println("has? " + message);
+            boolean has = Boolean.parseBoolean(message);
+
+            if(has){            
+                if((message = in.readLine())!= null){
+                    System.out.println(message);
+                }
+                if((message = in.readLine())!= null){
+                    System.out.println(message);
+                }
+                if((message = in.readLine())!= null){
+                    System.out.println(message);
+                    int size = Integer.parseInt(message);
+                    for(int i = 0; i< size; i++){
+                        message = in.readLine();
+                        System.out.println(message);
+                    }
+                }
+            }
+            else{
+                message = in.readLine();
                 System.out.println(message);
             }
         }

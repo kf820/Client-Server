@@ -109,7 +109,7 @@ public class ServerObject{
         int size = questionSize();
         for(int i = 0; i<size; i++){
             obj = (JSONObject) questions.get(i);
-            int check = Integer.parseInt(obj.get("questionNumber"));
+            int check = Integer.parseInt((obj.get("questionNumber")).toString());
             if(check == number){
                 return number;
             }
@@ -118,12 +118,32 @@ public class ServerObject{
     }
 
     private void getQuestion(int number){
+        // int size1 = questionSize();
+        // String message = Integer.toString(size1);
+        // out.println(message);
+        // if(number == 0 || number > size1){
+        //     out.println("Error, question " + number + " not found.");
+        //     return;
+        // }
         boolean has = hasQuestion(number);
+        //out.println(has);
         if(has){
-            JSONObject obj = (JSONObject) questions.get(number);
+            String message = Boolean.toString(has);
+            out.println(message);
+            JSONObject obj = (JSONObject) questions.get(number-1);
             //PRINT IT OUT
+            out.println(obj.get("tag"));
+            out.println(obj.get("question"));
+            JSONArray answers = (JSONArray) obj.get("answers");
+            int size = answers.size();
+            out.println(size);
+            for(int i = 0; i<size; i++){
+                out.println(answers.get(i));
+            }
         }
         else{
+            String message = Boolean.toString(has);
+            out.println(message);
             out.println("Error, question " + number + " not found.");
         }
 
@@ -135,9 +155,7 @@ public class ServerObject{
         if(check != -1){
             return true;
         }
-        else{
-            return false;
-        }
+        return false;
 
     }
 
