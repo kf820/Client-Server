@@ -80,6 +80,7 @@ public class ClientObject {
 
                 else if(userInput.substring(0,1).equals("q")){
                     System.out.println("Killing the client!");
+                    out.println("q");
                     break;
                 }
 
@@ -168,7 +169,8 @@ public class ClientObject {
     }
 
     public void deleteQuestion(String number){
-        String message;
+        out.println(number);
+        String message="";
         try{
             if((message = in.readLine())!= null){
                 System.out.println(message);
@@ -217,17 +219,31 @@ public class ClientObject {
     }
 
     public void getRandomQuestion(){
-        String text;
+        String text="";
         try{
-            while((text = in.readLine())!= null){
-                System.out.print(text);
+            if((text = in.readLine())!= null){
+                System.out.println(text);
             }
-            String userInput = stdIn.readLine();
-            out.println(userInput);
-            String message;
-            if((message = in.readLine())!= null){
-                System.out.println(message);
+            if((text = in.readLine())!= null){
+                System.out.println(text);
             }
+            if((text = in.readLine())!= null){
+                System.out.println(text);
+                int size = Integer.parseInt(text);
+                for(int i = 0; i< size; i++){
+                    text = in.readLine();
+                    System.out.println(text);
+                }
+            }
+            // while((text = in.readLine())!= null){
+            //     System.out.print(text);
+            // }
+            // String userInput = stdIn.readLine();
+            // out.println(userInput);
+            // String message;
+            // if((message = in.readLine())!= null){
+            //     System.out.println(message);
+            // }
         }
         catch(IOException e){
             e.printStackTrace();
@@ -235,7 +251,7 @@ public class ClientObject {
     }
 
     public void checkAnswer(String check){
-        //out.println(number + check);
+        out.println(check);
         try{
             String message = in.readLine();
             System.out.println(message);

@@ -56,42 +56,41 @@ public class ServerObject{
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 //command = in.readLine();
                 while((command = in.readLine())!=null){
-                if(command.equals("p")){
-                    this.putNewQuestion();
-                }
+                    if(command.equals("p")){
+                        this.putNewQuestion();
+                    }
 
-                else if(command.substring(0,1).equals("d")){
-                    int questionNum= Integer.parseInt(command.substring(2,3));
-                    this.deleteQuestion(questionNum);
+                    else if(command.substring(0,1).equals("d")){
+                        int questionNum= Integer.parseInt(command.substring(2,3));
+                        this.deleteQuestion(questionNum);
                     
-                }
+                    }
 
-                else if(command.substring(0,1).equals("g")){
-                    int questionNum = Integer.parseInt(command.substring(2,3));
-                    this.getQuestion(questionNum);
-                }
+                    else if(command.substring(0,1).equals("g")){
+                        int questionNum = Integer.parseInt(command.substring(2,3));
+                        this.getQuestion(questionNum);
+                    }
 
-                else if(command.equals("r")){
-                    this.randomQuestion();
-                }
+                    else if(command.equals("r")){
+                        this.randomQuestion();
+                    }
 
-                else if(command.substring(0,1).equals("c")){
-                    int questionNum = Integer.parseInt(command.substring(2,3));
-                    String check = command.substring(4,5);
-                    this.checkAnswer(questionNum, check);
-                }
+                    else if(command.substring(0,1).equals("c")){
+                        int questionNum = Integer.parseInt(command.substring(2,3));
+                        String check = command.substring(4,5);
+                        this.checkAnswer(questionNum, check);
+                    }
 
-                else if(command.substring(0,1).equals("k")){
-                    System.out.println("Killing the server!");
+                    else if(command.substring(0,1).equals("k")){
+                        System.out.println("Killing the server!");
                     //out.println("k");
-                    kill = command;
+                        kill = command;
+                        break;
+                    }
+                }
+                if(kill.equals("k")){
                     break;
                 }
-            }
-            if(kill.equals("k")){
-                break;
-            }
-
             }
         }
 
@@ -101,24 +100,34 @@ public class ServerObject{
     }
 
     private void deleteQuestion(int number){
+        boolean has = hasQuestion(number);
+        if(has){
+            //delete
+            questions.remove(findQuestionIndex(number));
+            this.updateJsonFile();
+            out.println("Deleted question " + number);
+        }
+        else{
+            out.println("Error question " + number + " was not found");
+        }
 
     }
 
-    private int doesQuestionExist(int number){
+    private int findQuestionIndex(int number){
         JSONObject obj;
         int size = questionSize();
         for(int i = 0; i<size; i++){
             obj = (JSONObject) questions.get(i);
             int check = Integer.parseInt((obj.get("questionNumber")).toString());
             if(check == number){
-                return number;
+                return i;
             }
         }
         return -1;
     }
 
     private boolean hasQuestion(int num){
-        int check = doesQuestionExist(num);
+        int check = findQuestionIndex(num);
         if(check != -1){
             return true;
         }
@@ -139,7 +148,8 @@ public class ServerObject{
         if(has){
             String message = Boolean.toString(has);
             out.println(message);
-            JSONObject obj = (JSONObject) questions.get(number-1);
+            int index = findQuestionIndex(number);
+            JSONObject obj = (JSONObject) questions.get(index);
             //PRINT IT OUT
             out.println(obj.get("tag"));
             out.println(obj.get("question"));
@@ -160,11 +170,31 @@ public class ServerObject{
     }
 
     private void randomQuestion(){
+        int random = 0 + (int)(Math.random() * (((this.questionSize()-1) - 0) + 1));
+        //out.println(random);
+        JSONObject obj = (JSONObject) questions.get(random);
+        //PRINT IT OUT
+        out.println(obj.get("tag"));
+        out.println(obj.get("question"));
+        JSONArray answers = (JSONArray) obj.get("answers");
+        int size = answers.size();
+        out.println(size);
+        for(int i = 0; i<size; i++){
+            out.println(answers.get(i));
+        }
 
     }
 
     private void checkAnswer(int number, String check){
-        
+        int index = findQuestionIndex(number);
+        JSONObject obj = (JSONObject) questions.get(index);
+        String answer = obj.get("correctanswer").toString();
+        if(answer.equals(check)){
+            out.println("Correct");
+        }
+        else{
+            out.println("Incorrect");
+        }        
     }
 
     private int questionSize(){
