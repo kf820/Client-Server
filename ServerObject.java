@@ -238,11 +238,11 @@ public class ServerObject{
             if((userinput = in.readLine()) != null){
                 question.put("tag", userinput);
                 // out.println(userinput);
-                out.println("tag");
+                //out.println("tag");
             }
             if((userinput = in.readLine()) != null){
                 question.put("question", userinput);
-                out.println("question");
+                //out.println("question");
             }
             String dotinput = ""; 
             while(true){
@@ -256,23 +256,23 @@ public class ServerObject{
                 if(userinput.equals(".")){
                     continue;
                 }
-                out.println("answers");
+                //out.println("answers");
                 answers.add(userinput);
             }
 
             if((userinput = in.readLine()) != null){
                 question.put("correctanswer",userinput);
-                out.println("correctanswer");
+                //out.println("correctanswer");
             }
             // questionNum++;
             // question.put("questionNumber",questionNum);
             // out.println(questionNum);
             
             //int questionNumber = questionSize() + 1;
-            if(questionSize() == 0){
+            if(this.questionSize() == 0){
                 question.put("questionNumber", 1);
             }
-            else if(questionSize() > 0){
+            else if(this.questionSize() > 0){
                 //grab last question and add 1
                 int index = this.questionSize() - 1;
                 JSONObject obj = (JSONObject) questions.get(index);
