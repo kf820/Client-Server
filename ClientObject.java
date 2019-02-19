@@ -27,6 +27,7 @@ public class ClientObject {
     }
 
     public void printOptionMenu(){
+        System.out.println("");
         System.out.println("Pick from the following options: ");
         System.out.println("");
         System.out.println("p: put a question in the bank");
@@ -37,6 +38,7 @@ public class ClientObject {
         System.out.println("k: kill - terminate the server");
         System.out.println("q: quit - terminate the client");
         System.out.println("h: help");
+        System.out.println("");
     }
 
     public void commandList(){
@@ -85,12 +87,11 @@ public class ClientObject {
                 }
 
                 else if(userInput.substring(0,1).equals("h")){
-                    System.out.println("Killing the client!");
-                    break;
+                    this.printOptionMenu();
                 }
             }
 
-            System.out.println("Server and or client was killed, therefore we can't do anything from here, goodbye :)");
+            System.out.println("Server or client was killed. Please reconnect to the server using the localport listed or restart the server to get the new port its listening on.");
         }
         catch(IOException e){
             System.out.println(e.getMessage());
@@ -104,13 +105,13 @@ public class ClientObject {
         try{
             String userInput = stdIn.readLine();
             out.println(userInput);
-            System.out.println("client: " + userInput);
-            System.out.println("back: " + in.readLine());
+            //System.out.println("client: " + userInput);
+            //System.out.println("back: " + in.readLine());
             //userInput = stdIn.readLine();
             String dotInput="";
             while(true){
                 userInput = stdIn.readLine();
-                System.out.println("client in while loop: " + userInput);
+                //System.out.println("client in while loop: " + userInput);
                 //userInput = stdIn.readLine();
                 // if(userInput.equals(".") && dotInput.equals(".")){
                 //     break;
@@ -119,40 +120,40 @@ public class ClientObject {
                     out.println(userInput);
                     userInput = stdIn.readLine();
                     dotInput = userInput;
-                    System.out.println("dotinput " + userInput);
-                    System.out.println("client in period: " + userInput);
+                    //System.out.println("dotinput " + userInput);
+                    //System.out.println("client in period: " + userInput);
                     //out.println(userInput);
                     //System.out.println("back: " + in.readLine());
                     if(dotInput.equals(".")){
-                        System.out.println("we're breaking out");
+                        //System.out.println("we're breaking out");
                         out.println(dotInput);
                         break;
                     }
                     else{
                         out.println(userInput);
-                        System.out.println("client in else in period: " + userInput);
-                        System.out.println("back: " + in.readLine());
+                        //System.out.println("client in else in period: " + userInput);
+                        //System.out.println("back: " + in.readLine());
                     }
                     //continue;    
                 }
                 else{
                     out.println(userInput);
-                    System.out.println("client in else while: " + userInput);
-                    System.out.println("back: " + in.readLine());
+                    //System.out.println("client in else while: " + userInput);
+                    //System.out.println("back: " + in.readLine());
                     //userInput = stdIn.readLine();
                 }
                 //out.println(userInput);
             }
-            System.out.println("before answer check");
+            //System.out.println("before answer check");
             if((userInput = stdIn.readLine()) != null){
                 //correct answer
                 out.println(userInput);
-                System.out.println("back: " + in.readLine());
+                //System.out.println("back: " + in.readLine());
             }
-            System.out.println("uh");
+            //System.out.println("uh");
             System.out.println(in.readLine());
-            System.out.println("questions array");
-            System.out.println(in.readLine());
+            //System.out.println("questions array");
+            //System.out.println(in.readLine());
             return;
 
 
@@ -188,7 +189,7 @@ public class ClientObject {
         
         try{
             String message = in.readLine();
-            System.out.println("has? " + message);
+            //System.out.println("has? " + message);
             boolean has = Boolean.parseBoolean(message);
 
             if(has){            
@@ -199,7 +200,7 @@ public class ClientObject {
                     System.out.println(message);
                 }
                 if((message = in.readLine())!= null){
-                    System.out.println(message);
+                    //System.out.println(message);
                     int size = Integer.parseInt(message);
                     for(int i = 0; i< size; i++){
                         message = in.readLine();
@@ -228,7 +229,7 @@ public class ClientObject {
                 System.out.println(text);
             }
             if((text = in.readLine())!= null){
-                System.out.println(text);
+                //System.out.println(text);
                 int size = Integer.parseInt(text);
                 for(int i = 0; i< size; i++){
                     text = in.readLine();

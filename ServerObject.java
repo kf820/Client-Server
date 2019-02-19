@@ -15,6 +15,7 @@ public class ServerObject{
     ServerObject(){
         try{
             serverSock = new ServerSocket(0);
+            //System.out.println("Host name is localhost, type './qclient localhost " + serverSock.getLocalPort() + "' to connect ");
             System.out.println("listening on port: " + serverSock.getLocalPort());
             File myFile = new File("Questions.json");
             questions = new JSONArray();
@@ -174,7 +175,7 @@ public class ServerObject{
         //out.println(random);
         JSONObject obj = (JSONObject) questions.get(random);
         //PRINT IT OUT
-        out.println(obj.get("tag"));
+        out.println(obj.get("questionNumber"));
         out.println(obj.get("question"));
         JSONArray answers = (JSONArray) obj.get("answers");
         int size = answers.size();
@@ -208,8 +209,8 @@ public class ServerObject{
             JSONObject obj = new JSONObject();
             obj.put("questionBank",questions);
 			file.write(obj.toJSONString());
-			System.out.println("Successfully Copied JSON Object to File...");
-			System.out.println("\nJSON Object: " + questions);
+			//System.out.println("Successfully Copied JSON Object to File...");
+			//System.out.println("\nJSON Object: " + questions);
         }
         catch(IOException e){
             e.printStackTrace();
@@ -273,14 +274,17 @@ public class ServerObject{
             }
             else if(questionSize() > 0){
                 //grab last question and add 1
-                int qNum = 1 + Integer.parseInt((questions.get(questionSize()-1)).toString());
+                int index = this.questionSize() - 1;
+                JSONObject obj = (JSONObject) questions.get(index);
+                int qNum = 1 + Integer.parseInt((obj.get("questionNumber")).toString());
                 question.put("questionNumber", qNum);
+                out.println(qNum);
             }
             //question.put("questionNumber", questionNumber);
             questions.add(question);
             //int numberQuestion = questions.size();
-            out.println(questionSize());
-            out.println(questions);
+            //out.println(questionSize());
+            //out.println(questions);
             this.updateJsonFile();
             return;
 

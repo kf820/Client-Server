@@ -6,7 +6,7 @@ public class ClientMain{
     public static void main(String args[]) throws IOException {
 		if (args.length != 2) {
             System.err.println(
-                "Usage: java ClientMain <host name> <port number>");
+                "Usage: ./qclient <host name> <port number>");
             System.exit(1);
         }
 
